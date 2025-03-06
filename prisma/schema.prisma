@@ -1,14 +1,153 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
+}
+
+model Abonos {
+  Id_abono Float   @id
+  usuario  String? @db.VarChar(100)
+  vendedor String? @db.VarChar(250)
+  abono    Float?
+  fecha    String? @db.VarChar(50)
+}
+
+model Canje {
+  Id_canje         Float   @id
+  Vendedor         String? @db.VarChar(250)
+  Puntos_actuales  Float?
+  Puntos_canjeados Float?
+  Codigo           String? @db.VarChar(100)
+  Producto         String? @db.VarChar(250)
+  Estatus          String? @db.VarChar(50)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model Mensajes {
+  Idmensaje   Float
+  Fechainicio DateTime @db.DateTime(0)
+  Fechafin    DateTime @db.DateTime(0)
+  Mensaje     String   @db.VarChar(250)
+
+  @@ignore
+}
+
+model aguinaldo {
+  Idaguinaldo Float  @id
+  aguinaldo   Float?
+}
+
+model boletos {
+  Idsorteo      Float    @id
+  Fecha         String?  @db.VarChar(250)
+  Primerpremio  String?  @db.VarChar(50)
+  Segundopremio String?  @db.VarChar(50)
+  Boleto        Float?
+  Costo         Float?
+  comprador     String?  @db.VarChar(250)
+  Idvendedor    Float?
+  tipo_sorteo   Float?   @db.Float
+  Fecha_venta   String?  @db.VarChar(250)
+  corte_caja    Boolean? @default(false)
+}
+
+model comisiones {
+  Idcomision Float  @id
+  Venta      Float?
+  Comision   Float?
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model configuracion {
+  idnegocio Float?
+  negocio   String? @db.VarChar(250)
+  logo      String? @db.VarChar(250)
+  leyenda1  String? @db.VarChar(250)
+  leyenda2  String? @db.VarChar(250)
+  leyenda3  String? @db.VarChar(250)
+
+  @@ignore
+}
+
+model cortesdecaja {
+  idcorte            Float     @id
+  Fecha_actual       DateTime? @db.DateTime(0)
+  fechasorteo        DateTime? @db.DateTime(0)
+  vendedor           String?   @db.VarChar(250)
+  sucursal           String?   @db.VarChar(250)
+  boletosvendidos    Float?
+  venta              Float?
+  porcentajecomision Float?
+  comision           Float?
+  totalcaja          Float?
+  Tipo_sorteo        String?   @db.VarChar(100)
+  totalentregado     Float?
+}
+
+model deuda {
+  Id_deuda    Float     @id
+  usuario     String?   @db.VarChar(100)
+  vendedor    String?   @db.VarChar(250)
+  fecha       DateTime? @db.DateTime(0)
+  cantidad    Float?
+  descripcion String?   @db.VarChar(250)
+  estatus     String?   @db.VarChar(250)
+}
+
+model premiados {
+  idpremiados  Float     @id
+  fechasorteo  DateTime? @db.DateTime(0)
+  primerlugar  String?   @db.VarChar(250)
+  segundolugar String?   @db.VarChar(250)
+  Tipo_sorteo  String?   @db.VarChar(100)
+}
+
+model sorteo {
+  Idsorteo      Float     @id
+  Fecha         DateTime? @db.DateTime(0)
+  Primerpremio  String?   @db.VarChar(50)
+  Segundopremio String?   @db.VarChar(50)
+  Estatus       String?   @db.VarChar(50)
+  Tipo_sorteo   String?   @db.VarChar(100)
+}
+
+model sucursales {
+  idsucursal Float   @id
+  sucursal   String? @db.VarChar(250)
+}
+
+/// The underlying table does not contain a valid unique identifier and can therefore currently not be handled by Prisma Client.
+model topes {
+  Id_tope      Float?
+  Numero       Float?
+  Cantidad     Float?
+  Fecha_sorteo String? @db.VarChar(250)
+  Tope         Float?
+
+  @@ignore
+}
+
+model usuarios {
+  Id_usuario Float   @id
+  Nombre     String? @db.VarChar(200)
+  Usuario    String? @db.VarChar(50)
+  Contra     String? @db.VarChar(10)
+  Estatus    String? @db.VarChar(20)
+}
+
+model vendedores {
+  Idvendedor   Float     @id
+  Nombre       String    @db.VarChar(250)
+  contrasena   String    @db.VarChar(250)
+  Fechaingreso DateTime? @db.DateTime(0)
+  Aguinaldo    Float
+  Domicilio    String?   @db.VarChar(250)
+  Telefono     String?   @db.VarChar(20)
+  sucursal     String?   @db.VarChar(250)
+  Comision     Float?
+  Estatus      String?   @db.VarChar(100)
+  Puntos       Float
 }
